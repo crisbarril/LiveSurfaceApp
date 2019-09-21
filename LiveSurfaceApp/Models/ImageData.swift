@@ -15,6 +15,7 @@ struct ImageData: Codable, Identifiable {
     let filename: String
     let category: String
     let version: String
+    let data: Data?
     let tags: Tags
     
     enum CodingKeys: String, CodingKey {
@@ -24,6 +25,7 @@ struct ImageData: Codable, Identifiable {
         case filename = "image"
         case category
         case version
+        case data
         case tags
     }
     
