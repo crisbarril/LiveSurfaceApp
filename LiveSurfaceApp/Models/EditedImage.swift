@@ -1,5 +1,5 @@
 //
-//  ImageDataResponse.swift
+//  EditedImage.swift
 //  LiveSurfaceApp
 //
 //  Created by Cristian Barril on 21/09/2019.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct ImageDataResponse: Codable {
-    let image: Data
+class EditedImage: ObservableObject {
+    @Published var images: [ImageData] = []
 }

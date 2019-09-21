@@ -8,30 +8,39 @@
 
 import SwiftUI
 
-private let dateFormatter: DateFormatter = {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateStyle = .medium
-    dateFormatter.timeStyle = .medium
-    return dateFormatter
-}()
-
 struct ImageListView: View {
-    @ObservedObject var viewModel: ImagesListViewModel
+    
     @State private var scaleFactor: CGFloat = 1.0
+    @ObservedObject var viewModel: ImagesListViewModel
+    @EnvironmentObject var editedImages: EditedImage
     
     var body: some View {
         NavigationView {
             
             VStack {
                 ScrollView {
+                    Text("Downloaded images")
+                        .font(.title)
                     ForEach(viewModel.images) { image in
+                        ImageThumbnailView(scaleFactor: self.$scaleFactor, viewModel: .init(imageData: image))
+                            .background(Color.red.opacity(0.5))
+                            .cornerRadius(10.0)
+                            .padding()
+                    }
+                    
+                    if editedImages.images.count > 0 {
+                        Text("Edited images")
+                            .font(.title)
+                        ForEach(editedImages.images) { image in
                             ImageThumbnailView(scaleFactor: self.$scaleFactor, viewModel: .init(imageData: image))
                                 .background(Color.red.opacity(0.5))
                                 .cornerRadius(10.0)
-                                .scaleEffect(self.scaleFactor)                        
                                 .padding()
                         }
-                    }                
+                    }
+                }
+                .scaleEffect(self.scaleFactor)
+                
                 Slider(value: $scaleFactor, in: 0.75...1.25, step: 0.05)
                     .padding()
             }

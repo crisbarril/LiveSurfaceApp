@@ -2,7 +2,7 @@
 //  ImageDataRequest.swift
 //  LiveSurfaceApp
 //
-//  Created by Cris beta on 21/09/2019.
+//  Created by Cristian Barril on 21/09/2019.
 //  Copyright © 2019 Cristian Barril. All rights reserved.
 //
 

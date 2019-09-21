@@ -9,20 +9,41 @@
 import SwiftUI
 
 struct ImageDetailView: View {
-    var image: ImageData
-
+    
+    @EnvironmentObject var editedImages: EditedImage
+    @ObservedObject var viewModel: ImageDetailViewModel    
+    
     var body: some View {
-        Text(image.filename)
-    }
-}
-
-struct ImageDetailView_Previews: PreviewProvider {
-    
-    static let mockTagsData = ImageData.Tags.init(sizeDescription: "", sizeScale: "", sizeWidth: "", sizeWidthArc: "", sizeHeight: "", sizeHeightArc: "", sizeDepth: "", sizeDepthArc: "", sizeUnits: "")
-    
-    static let mockImageData = ImageData(id: 0, name: "Mock Name", number: "1", filename: "MockFileName", category: "Mock", version: "1.0", data: nil, tags: mockTagsData)
-
-    static var previews: some View {
-        ImageDetailView(image: mockImageData)
+        VStack {
+            Image(uiImage: viewModel.image)
+                .resizable()
+                                 
+            HStack {
+            
+                Button(action: {
+                    self.viewModel.edit()
+                }) {
+                    Text("Chrome Effect")
+                        .foregroundColor(Color.white)
+                }
+                .frame(width: 150, height: 50)
+                .background(Color.blue)
+                .cornerRadius(5.0)
+                .padding()
+                
+                Button(action: {
+                    let newImage = self.viewModel.saveImage()
+                    self.editedImages.images.append(newImage)
+                }) {
+                    Text("Save")
+                        .foregroundColor(Color.white)
+                }
+                .frame(width: 100, height: 50)
+                .background(Color.green)
+                .cornerRadius(5.0)
+                .padding()
+            }
+        }
+        
     }
 }
