@@ -11,4 +11,5 @@ import Combine
 
 protocol NetworkProtocol {
     func response<Request>(from request: Request) -> AnyPublisher<Request.Response, NetworkError> where Request: RequestProtocol
+    func getImage<Request>(from request: Request) -> AnyPublisher<Data, NetworkError> where Request: RequestProtocol
 }

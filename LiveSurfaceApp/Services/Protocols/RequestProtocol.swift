@@ -12,4 +12,5 @@ protocol RequestProtocol {
     associatedtype Response: Decodable
     
     var urlComponents: URLComponents { get }
+    var contentType: String { get }
 }

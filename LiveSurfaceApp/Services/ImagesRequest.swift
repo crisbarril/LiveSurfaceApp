@@ -11,6 +11,7 @@ import Foundation
 struct ImagesRequest: RequestProtocol {
     typealias Response = ImagesResponse
     
+    var contentType: String = "application/json"
     var urlComponents: URLComponents {
         var components = URLComponents()
         components.scheme = LiveSurfaceAPI.scheme

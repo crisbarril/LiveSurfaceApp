@@ -31,7 +31,10 @@ final class NetworkService: NetworkProtocol {
             return Fail(error: error).eraseToAnyPublisher()
         }
         
-        return URLSession.shared.dataTaskPublisher(for: URLRequest(url: url))
+        var urlRequest = URLRequest(url: url)
+        urlRequest.addValue(request.contentType, forHTTPHeaderField: "Content-Type")
+        
+        return URLSession.shared.dataTaskPublisher(for: urlRequest)
             .map { data, urlResponse in data }
             .mapError { error in
                 NetworkError.network(description: error.localizedDescription)                
@@ -43,4 +46,24 @@ final class NetworkService: NetworkProtocol {
             .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
     }
+    
+    func getImage<Request>(from request: Request) -> AnyPublisher<Data, NetworkError> where Request: RequestProtocol {
+        
+        guard let url = request.urlComponents.url else {
+            let error = NetworkError.network(description: "Couldn't create URL")
+            return Fail(error: error).eraseToAnyPublisher()
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.addValue(request.contentType, forHTTPHeaderField: "Content-Type")
+        
+        return URLSession.shared.dataTaskPublisher(for: urlRequest)
+            .map { data, urlResponse in data }
+            .mapError { error in
+                NetworkError.network(description: error.localizedDescription)
+            }
+            .receive(on: RunLoop.main)
+            .eraseToAnyPublisher()
+    }
+
 }
